@@ -101,12 +101,12 @@ function AppSidebar() {
   useEffect(() => {
     const getUser = async () => {
       const {
-        data: {user},
+        data: { user },
       } = await supabse.auth.getUser()
       setUser(user)
     }
     getUser()
-  },[])
+  }, [])
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
@@ -363,15 +363,37 @@ export default function Dashboard() {
   const [hasScanned, setHasScanned] = useState(false)
   const [isScanning, setIsScanning] = useState(false)
   const [fileContent, setFileContent] = useState("")
+  const [scanResults, setScanResults] = useState<typeof mockVulnerabilities>([])
+
 
   const handleScan = async () => {
     if (!fileContent.trim()) return
 
     setIsScanning(true)
-    // Simulate scanning delay
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+
+    try {
+      const parsed = JSON.parse(fileContent)
+      const dependencies = parsed.dependencies || {}
+
+      const res = await fetch("./api/scan-with-ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dependencies }),
+      })
+
+      const data = await res.json()
+
+      if (data.suggestions) {
+        // Set this instead of mockVulnerabilities
+        setScanResults(data.suggestions)
+        setHasScanned(true)
+      }
+    } catch (err) {
+      console.error("Scan failed:", err)
+      alert("Something went wrong while scanning.")
+    }
+
     setIsScanning(false)
-    setHasScanned(true)
   }
 
   const handleGeneratePR = () => {
@@ -429,9 +451,20 @@ export default function Dashboard() {
 
               {hasScanned && (
                 <div className="animate-in slide-in-from-bottom-4 duration-500">
-                  <VulnerabilityTable vulnerabilities={mockVulnerabilities} />
+                  {scanResults.length === 0 ? (
+                    <Card>
+                      <CardContent className="p-6 text-muted-foreground text-center">
+                        ✅ No known vulnerabilities found!
+                      </CardContent>
+                    </Card>
+                  ) : (
+                      <div className="animate-in slide-in-from-bottom-4 duration-500">
+                        <VulnerabilityTable vulnerabilities={scanResults} />
+                      </div>
+                  )}
                 </div>
               )}
+
             </div>
           </div>
         </div>
