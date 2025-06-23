@@ -454,7 +454,7 @@ export default function Dashboard() {
                   {scanResults.length === 0 ? (
                     <Card>
                       <CardContent className="p-6 text-muted-foreground text-center">
-                        ✅ No known vulnerabilities found!
+                        No known vulnerabilities found!
                       </CardContent>
                     </Card>
                   ) : (

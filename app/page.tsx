@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link"
-import { ArrowRight, Shield, Zap, GitBranch, Upload, Scan, CheckCircle, Star, Github, Twitter } from "lucide-react"
+import { ArrowRight, Shield, Zap, GitBranch, Upload, Scan, CheckCircle, Star, Github, Twitter, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -480,12 +480,16 @@ function Footer() {
               Secure your codebase with AI-powered vulnerability detection and intelligent patch suggestions.
             </p>
             <div className="flex gap-4">
-              <Button variant="ghost" size="icon">
-                <Github className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon">
-                <Twitter className="h-4 w-4" />
-              </Button>
+              <Link href="https://github.com/KishanInnovates" target="_blank" rel="noopener noreferrer">
+                <Button variant="ghost" size="icon">
+                  <Github className="h-4 w-4" />
+                </Button>
+              </Link>
+              <Link href="https://x.com/guptakishan428" target="_blank" rel="noopener noreferrer">
+                <Button variant="ghost" size="icon">
+                  <X className="h-4 w-4" />
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -543,7 +547,7 @@ function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground max-w-7xl mx-auto">
-          <p>&copy; 2024 SupplyGuard AI. All rights reserved.</p>
+          <p>&copy; 2025 SupplyGuard AI. All rights reserved.</p>
         </div>
       </div>
     </footer>
